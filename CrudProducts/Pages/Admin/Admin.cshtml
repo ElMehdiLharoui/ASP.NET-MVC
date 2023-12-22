@@ -1,0 +1,37 @@
+﻿@page
+@model CrudProducts.Pages.Admin.AdminModel
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Accueil</title>
+    <style>
+        body {
+            text-align: center;
+        }
+
+        .button-container {
+            margin-top: 20px;
+        }
+
+        .btn {
+            margin: 0 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <h1>Page d'accueil</h1>
+        <p>Sélectionnez une action :</p>
+        <div class="button-container">
+            <a asp-page="/Categories/Index" class="btn btn-primary">Afficher les catégories</a>
+            <a asp-page="/Products/Create" class="btn btn-success">Créer un produit</a>
+        </div>
+    </div>
+</body>
+
+</html>

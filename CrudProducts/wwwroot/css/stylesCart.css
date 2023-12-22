@@ -1,0 +1,24 @@
+﻿#cartContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.card {
+    width: 300px;
+    height : 200px;
+    margin: 10px;
+}
+
+.card-body {
+    text-align: center;
+}
+
+.updateBtn, .deleteBtn {
+    margin-top: 10px;
+}
+.custom-card {
+    height: 300px; /* Hauteur souhaitée en pixels */
+    overflow: hidden; /* Pour s'assurer que le contenu ne dépasse pas la carte */
+}

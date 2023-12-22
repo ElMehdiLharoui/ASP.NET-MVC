@@ -1,0 +1,76 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+        }
+
+        .header {
+            background-color: #3498db;
+            padding: 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .image-container {
+            text-align: center;
+        }
+
+            .image-container img {
+                max-width: 100%;
+                border-radius: 10px;
+            }
+
+        .heading {
+            font-size: 2rem;
+            margin-top: 20px;
+            color: #333;
+        }
+
+        .button-container {
+            margin-top: 20px;
+        }
+
+        .btn-primary {
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <!-- Utilisez la directive asp-page pour générer le lien de manière dynamique -->
+        <a asp-page="/Products/Index" class="btn btn-primary btn-lg">Accéder à nos produits</a>
+    </div>
+
+    <div class="container">
+        <div class="image-container">
+            <img src="https://www.wallpapertip.com/wmimgs/23-236902_e-commerce.jpg" alt="Nouvelle Image">
+        </div>
+
+        <h2 class="heading">Bienvenue</h2>
+    </div>
+</body>
+</html>

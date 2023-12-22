@@ -1,0 +1,43 @@
+﻿/* style.css */
+
+.cart-container {
+    margin-top: 5rem; /* Marge supérieure personnalisée */
+    padding: 20px;
+    background-color: #f7f7f7; /* Couleur de fond */
+    border: 1px solid #ddd; /* Bordure */
+    border-radius: 5px; /* Coins arrondis */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Ombre */
+}
+
+.cart-title {
+    font-size: 24px; /* Taille de police personnalisée */
+    color: #333; /* Couleur du texte */
+    margin-bottom: 20px; /* Marge inférieure */
+}
+
+.cart-table {
+    background-color: #fff; /* Couleur de fond du tableau */
+    border: 1px solid #ccc; /* Bordure du tableau */
+    border-radius: 5px; /* Coins arrondis */
+}
+
+    .cart-table table {
+        margin-bottom: 0; /* Supprimer la marge inférieure du tableau */
+    }
+
+    .cart-table thead {
+        background-color: #3481cd; /* Couleur de fond de l'en-tête */
+        color: #fff; /* Couleur du texte de l'en-tête */
+    }
+
+    .cart-table th {
+        font-weight: bold; /* Style de police pour les en-têtes */
+    }
+
+    .cart-table tbody tr:nth-child(odd) {
+        background-color: #f2f2f2; /* Couleur de fond des lignes impaires */
+    }
+
+    .cart-table tbody tr:hover {
+        background-color: #e6e6e6; /* Couleur de fond au survol */
+    }

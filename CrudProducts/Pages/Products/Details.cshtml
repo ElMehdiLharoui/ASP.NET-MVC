@@ -1,0 +1,40 @@
+﻿@page
+@model CrudProducts.Pages.Products.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h2>Product Details</h2>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <img src="@Model.Product.imageUrl" alt="Product Image" class="img-fluid rounded" style="max-height: 300px;" />
+                </div>
+                <div class="col-md-6">
+                    <dl class="row">
+                        <dt class="col-sm-4">Name</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Product.Name)</dd>
+
+                        <dt class="col-sm-4">Description</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Product.Description)</dd>
+
+                        <dt class="col-sm-4">Price</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Product.Price)</dd>
+
+                        <dt class="col-sm-4">Category</dt>
+                        <dd class="col-sm-8">@Model.CategoryName</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-right">
+            <a asp-page="./Edit" asp-route-id="@Model.Product.Id" class="btn btn-warning">Edit</a>
+            <a asp-page="./Index" class="btn btn-secondary">Back to List</a>
+        </div>
+    </div>
+</div>

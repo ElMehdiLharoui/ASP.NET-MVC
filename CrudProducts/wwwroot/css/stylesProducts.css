@@ -1,0 +1,12 @@
+﻿.create-link {
+    text-decoration: none; /* Supprimer le soulignement par défaut */
+    background-color: #4caf50; /* Couleur de fond */
+    color: white; /* Couleur du texte */
+    padding: 10px 15px; /* Espacement du texte à l'intérieur du lien */
+    border-radius: 5px; /* Coins arrondis */
+    display: inline-block; /* Permet à la couleur de fond de s'étendre sur la largeur du texte */
+}
+
+    .create-link:hover {
+        background-color: #45a049; /* Couleur de fond au survol */
+    }

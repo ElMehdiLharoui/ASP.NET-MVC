@@ -1,0 +1,153 @@
+﻿@page 
+@inject CrudProducts.Data.CrudProductsContext Context
+@inject Microsoft.JSInterop.IJSRuntime JSRuntime
+@using System.Text.Json;
+@using CrudProducts.Model
+@{
+  
+}
+<head>
+    <link rel="stylesheet" href="~/css/card.css">
+</head>
+
+<h1 class="mt-5">Mon Panieer </h1>
+
+<div class="table-responsive mt-4">
+    <table class="table table-bordered" id="cartTable">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">Product ID</th>
+                <th scope="col">Product Name</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Subtotal</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody id="cartBody">
+            <!-- Les éléments du panier seront ajoutés ici dynamiquement -->
+        </tbody>
+    </table>
+</div>
+@section Scripts
+    {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Récupérer le panier depuis Local Storage
+            const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+            console.log(cartItems); 
+
+            // Sélectionner l'élément tbody du tableau
+            const cartBody = document.getElementById('cartBody');
+            cartBody.innerHTML = '';
+
+            cartItems.forEach(item => {
+                // Créer une ligne pour chaque élément
+                const row = document.createElement('tr');
+                const price = parseFloat(item.productPrice);
+                const quantity = parseInt(item.quantity);
+
+                // Ajouter les colonnes avec les données de l'élément
+                row.innerHTML = `
+                <td>${item.productId}</td>
+                <td>${item.productName}</td>
+                <td>
+                    <input type="number" class="form-control" min="1" max="100" step="1" value="${item.quantity}" />
+                </td>
+                <td>${(price * quantity).toFixed(2)}</td>
+                <td>
+                    <button class="btn btn-primary updateBtn" data-product-id="${item.productId}">Update</button>
+                    <button class="btn btn-danger deleteBtn" data-product-id="${item.productId}">Delete</button>
+                </td>
+            `;
+
+                // Ajouter la ligne à tbody
+                cartBody.appendChild(row);
+
+                const updateBtn = row.querySelector('.updateBtn');
+                const quantityInput = row.querySelector('input[type="number"]');
+
+                updateBtn.addEventListener('click', function () {
+                    const productId = this.getAttribute('data-product-id');
+                    const updatedQuantity = parseInt(quantityInput.value);
+
+                    // Mettre à jour la quantité dans le panier
+                    updateCartItem(productId, updatedQuantity);
+
+                    // Mettre à jour le sous-total
+                    const updatedPrice = parseFloat(item.productPrice);
+                    const updatedSubtotal = updatedQuantity * updatedPrice;
+                    row.querySelector('td:nth-child(4)').textContent = updatedSubtotal.toFixed(2);
+                });
+
+                // Gestionnaire d'événement pour le changement de quantité en temps réel
+                quantityInput.addEventListener('input', function () {
+                    const updatedQuantity = parseInt(this.value);
+
+                    // Mettre à jour le sous-total en temps réel
+                    const updatedPrice = parseFloat(item.productPrice);
+                    const updatedSubtotal = updatedQuantity * updatedPrice;
+                    row.querySelector('td:nth-child(4)').textContent = updatedSubtotal.toFixed(2);
+                });
+
+                // Gestionnaire d'événement pour le bouton Delete
+                const deleteBtn = row.querySelector('.deleteBtn');
+                deleteBtn.addEventListener('click', function () {
+                    const productId = this.getAttribute('data-product-id');
+
+                    // Supprimer l'élément du panier
+                    deleteCartItem(productId);
+                });
+            });
+        });
+
+        // Fonction pour mettre à jour la quantité dans le panier
+        function updateCartItem(productId, newQuantity) {
+            // Obtenir le panier actuel depuis Local Storage
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+            // Trouver l'élément dans le panier
+            const cartItem = cart.find(item => item.productId === productId);
+
+            if (cartItem) {
+                // Mettre à jour la quantité
+                cartItem.quantity = newQuantity;
+
+                // Enregistrer le panier mis à jour dans Local Storage
+                localStorage.setItem('cart', JSON.stringify(cart));
+
+                
+
+            }
+        }
+
+        // Fonction pour supprimer un élément du panier
+        function deleteCartItem(productId) {
+            // Obtenir le panier actuel depuis Local Storage
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+            // Filtrer les éléments du panier pour exclure celui à supprimer
+            const updatedCart = cart.filter(item => item.productId !== productId);
+
+            // Enregistrer le panier mis à jour dans Local Storage
+            localStorage.setItem('cart', JSON.stringify(updatedCart));
+
+            // Mettre à jour l'affichage
+            updateCartDisplay(updatedCart);
+            updateCartCount();
+
+        }
+
+        // Fonction pour mettre à jour l'affichage du panier
+        function updateCartDisplay(cart) {
+            // Réinitialiser le corps du panier
+            cartBody.innerHTML = '';
+
+            // Parcourir chaque élément dans le panier et créer une ligne pour chacun
+            cart.forEach(createRow);
+
+            // Mettre à jour le nombre d'articles dans le panier
+            updateCartCount();
+        }
+    </script>
+}
+

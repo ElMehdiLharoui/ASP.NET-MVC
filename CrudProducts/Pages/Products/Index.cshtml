@@ -1,0 +1,255 @@
+﻿@page
+
+@model CrudProducts.Pages.Products.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    header {
+        background-color: #3498db;
+        color: #ffffff;
+        text-align: center;
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+        margin: 0;
+    }
+
+    .filter-form {
+        background-color: #ffffff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        margin: 20px auto;
+        padding: 20px;
+        width: 80%;
+    }
+
+    .form-row {
+        display: flex;
+        gap: 20px;
+        justify-content: space-between;
+    }
+
+    .form-group {
+        flex-basis: calc(30% - 10px);
+    }
+
+    label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    .filter-button {
+        background-color: #27ae60;
+        color: #ffffff;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+        .filter-button:hover {
+            background-color: #219a52;
+        }
+
+    .card-columns {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+        margin: 20px auto;
+        max-width: 1200px;
+    }
+
+    .card {
+        background-color: #ffffff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+        .card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+    .card-body {
+        padding: 15px;
+    }
+
+    .card-title {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+    }
+
+    .card-text {
+        margin-bottom: 15px;
+    }
+
+    .addToCartBtn {
+        background-color: #e74c3c;
+        color: #ffffff;
+        border: none;
+        border-radius: 5px;
+        padding: 5px 10px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+        .addToCartBtn:hover {
+            background-color: #c0392b;
+        }
+
+    .card-footer {
+        background-color: #f0f0f0;
+        border-top: 1px solid #ddd;
+        padding: 10px;
+        text-align: right;
+    }
+
+        .card-footer a {
+            margin-left: 5px;
+        }
+</style>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+
+<body>
+    <header>
+        <h1>Bienvenue sur notre collection de produits</h1>
+    </header>
+    <main>
+        <form class="filter-form" asp-controller="HomeController" asp-action="Products/Index" method="get">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="prd">Nom du produit</label>
+                    <input type="text" id="prd" name="prd" asp-for="prd" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="selectedCategory">Catégorie</label>
+                    <select id="selectedCategory" name="selectedCategory" asp-for="selectedCategory" class="form-control">
+                        <option value="">Toutes les catégories</option>
+                        @foreach (var category in Model.Categories)
+                        {
+                            <option value="@category.Id.ToString()">@category.Name</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button class="filter-button" type="submit">Filtrer</button>
+                </div>
+            </div>
+        </form>
+
+        <div class="card-columns">
+            @if (Model.Product != null && Model.Product.Any())
+            {
+                foreach (var item in Model.Product)
+                {
+                    <div class="card custom-card">
+                        <img src="@item.imageUrl" class="card-img" alt="Product Image">
+                        <div class="card-body">
+                            <h5 class="card-title">@item.Name</h5>
+                            <p class="card-text">@item.Description</p>
+                            <p class="card-text">Price: @item.Price</p>
+                            <button class="addToCartBtn" data-product-id="@item.Id" data-product-price="@item.Price" data-product-name="@item.Name">Add to Cart</button>
+                        </div>
+                        <div class="card-footer">
+                            <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
+                            <a asp-page="./Details" asp-route-id="@item.Id" class="btn btn-info">Details</a>
+                            <a asp-page="./Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p>pas de produit</p>
+            }
+        </div>
+    </main>
+
+
+    @section Scripts
+    {
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // Sélectionnez tous les boutons "Add to Cart"
+                const addToCartButtons = document.querySelectorAll('.addToCartBtn');
+
+                // Ajoutez un gestionnaire d'événements pour chaque bouton
+                addToCartButtons.forEach(button => {
+                    button.addEventListener('click', function () {
+                        // Récupérez l'ID du produit à partir de l'attribut data
+                        const productId = this.getAttribute('data-product-id');
+                        const productName = button.dataset.productName;
+                        const productPrice = button.dataset.productPrice;
+
+
+                        // Ajoutez le produit au panier en utilisant Local Storage
+                        addToCart(productId, productName, productPrice);
+                    });
+                });
+
+                // Fonction pour ajouter au panier
+                function addToCart(productId, productName, productPrice) {
+                    // Obtenez le panier actuel depuis Local Storage (s'il y en a un)
+                    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                    const existingProduct = cart.find(item => item.productId === productId);
+
+                    if (existingProduct) {
+                        // Si le produit existe, augmentez la quantité de 1
+                        existingProduct.quantity += 1;
+                    } else {
+                        // Si le produit n'existe pas, ajoutez-le avec une quantité de 1
+                        cart.push({ productId: productId, productName: productName, productPrice: productPrice, quantity: 1 });
+                    }
+
+                    // Enregistrez le panier mis à jour dans Local Storage
+                    localStorage.setItem('cart', JSON.stringify(cart));
+
+                    updateCartCount();
+
+
+                }
+
+            });
+        </script>
+    }
+
+
+</body>
+
+</html>
+

@@ -1,0 +1,78 @@
+﻿/* style.css */
+
+form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.form-group {
+   
+    margin-bottom: 50px;                                                         
+}
+
+label {
+    font-size: 14px;
+    color: #333;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+    margin-right:10px;
+}
+
+    input[type="submit"] {
+        background-color: #4caf50;
+        color: white;
+        cursor: pointer;
+        margin-top: 25px;
+        padding: 10px;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+    }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+.create-button {
+    background-color: #4caf50;
+    color: white;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+    .create-button:hover {
+        background-color: #45a049;
+    }
+
+.custom-card {
+    height: 100%;
+    overflow: hidden; /* Pour s'assurer que l'image ne dépasse pas la carte */
+}
+
+    .custom-card .card-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* ou object-fit: contain; selon vos préférences */
+    }
+
+    .custom-card .card-body {
+        font-size: 12px; /* ajustez la taille de la police */
+        line-height: 1.2; /* ajustez l'espacement des lignes */
+    }
+
+    .custom-card .card-footer {
+        font-size: 10px; /* ajustez la taille de la police */
+    }
